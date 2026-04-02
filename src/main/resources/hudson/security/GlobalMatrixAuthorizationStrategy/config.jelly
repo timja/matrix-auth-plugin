@@ -169,9 +169,9 @@ THE SOFTWARE.
     <!-- Search / filter -->
     <div class="mas-container" id="${strategyid}" name="data">
       <local:isEditable>
-        <div class="mas-search">
-          <input type="text" class="jenkins-input mas-search__input" placeholder="${%searchPlaceholder}" aria-label="${%searchPlaceholder}"/>
-        </div>
+        <l:search-bar placeholder="${%searchPlaceholder}"
+                      clazz="mas-search"
+                      hasKeyboardShortcut="false" />
       </local:isEditable>
 
       <!-- Ambiguity warning -->

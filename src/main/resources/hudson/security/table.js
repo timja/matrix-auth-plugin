@@ -464,7 +464,7 @@ Behaviour.specify(".mas-card", "MatrixAuthCards", 100, function (card) {
 /*
  * Search / filter
  */
-Behaviour.specify(".mas-search__input", "MatrixAuthCards", 0, function (input) {
+Behaviour.specify(".mas-search input", "MatrixAuthCards", 0, function (input) {
   input.oninput = function () {
     const query = input.value.toLowerCase().trim();
     const container = input.closest(".mas-container");
