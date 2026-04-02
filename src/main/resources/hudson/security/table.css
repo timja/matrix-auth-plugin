@@ -140,16 +140,15 @@
 }
 
 .mas-card__toggle {
-  padding: 0 !important;
-  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 2rem;
-
-  svg {
-    transition: transform 0.2s;
-  }
+  height: 2rem;
+  transition: transform var(--standard-transition);
 }
 
-.mas-card[aria-expanded="true"] .mas-card__toggle svg {
+.mas-card[aria-expanded="true"] .mas-card__toggle {
   transform: rotate(180deg);
 }
 

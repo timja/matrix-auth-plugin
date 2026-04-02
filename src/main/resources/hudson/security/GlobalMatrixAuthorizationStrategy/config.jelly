@@ -111,10 +111,9 @@ THE SOFTWARE.
                   </button>
                 </j:if>
               </local:isEditable>
-              <button type="button" class="jenkins-button jenkins-button--tertiary mas-card__toggle"
-                      aria-label="${%Toggle permissions}">
+              <div class="mas-card__toggle">
                 <l:icon src="symbol-chevron-down-outline plugin-ionicons-api" class="icon-sm"/>
-              </button>
+              </div>
             </div>
           </div>
 
