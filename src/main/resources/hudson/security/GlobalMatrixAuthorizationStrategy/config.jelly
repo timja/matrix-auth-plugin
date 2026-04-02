@@ -210,14 +210,6 @@ THE SOFTWARE.
         </j:forEach>
       </div>
 
-      <!-- Add buttons -->
-      <local:isEditable>
-        <div class="jenkins-buttons-row jenkins-buttons-row--equal-width jenkins-!-margin-top-2">
-          <f:helpLink featureName="${%Permissions matrix}" url="${descriptor.find('hudson.security.GlobalMatrixAuthorizationStrategy$DescriptorImpl').getHelpFile('user-group')}"/>
-        </div>
-        <f:helpArea />
-      </local:isEditable>
-
       <!-- Empty state when search filters everything -->
       <div class="mas-empty-state" hidden="true">
         ${%noResults}
