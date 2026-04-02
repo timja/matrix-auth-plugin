@@ -100,7 +100,7 @@
 }
 
 .mas-card__name {
-  font-weight: 600;
+  font-weight: var(--font-bold-weight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -141,17 +141,22 @@
 }
 
 .mas-card__action {
-  padding: 0.25rem !important;
-  min-width: auto !important;
+  padding: 0 !important;
+  min-height: 2rem;
+  width: 2rem;
 }
 
 .mas-card__toggle {
-  padding: 0.25rem !important;
-  min-width: auto !important;
-  transition: transform 0.2s;
+  padding: 0 !important;
+  min-height: 2rem;
+  width: 2rem;
+
+  svg {
+    transition: transform 0.2s;
+  }
 }
 
-.mas-card[aria-expanded="true"] .mas-card__toggle {
+.mas-card[aria-expanded="true"] .mas-card__toggle svg {
   transform: rotate(180deg);
 }
 
@@ -177,7 +182,7 @@
 }
 
 .mas-card__group-title {
-  font-weight: 600;
+  font-weight: var(--font-bold-weight);
   font-size: 0.8125rem;
   color: var(--text-color-secondary);
   text-transform: uppercase;
@@ -259,12 +264,12 @@
 .mas-card__cell--not-found .mas-card__name {
   text-decoration: line-through;
   color: var(--error-color);
-  font-weight: 600;
+  font-weight: var(--font-bold-weight);
 }
 
 .mas-card__cell-warning .mas-card__name {
   color: var(--warning);
-  font-weight: 600;
+  font-weight: var(--font-bold-weight);
 }
 
 /* Ambiguity warning */
