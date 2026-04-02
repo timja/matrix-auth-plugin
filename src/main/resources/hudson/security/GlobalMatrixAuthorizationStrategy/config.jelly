@@ -41,23 +41,28 @@ THE SOFTWARE.
 
       <!-- Render a single permission card for a user/group -->
       <d:tag name="permissionCard">
-        <j:set var="permissionEntry" value="${descriptor.entryFor(attrs.type, attrs.sid)}"/>
-        <j:set var="isBuiltIn" value="${(attrs.sid == 'anonymous' and attrs.type == 'USER') or (attrs.sid == 'authenticated' and attrs.type == 'GROUP')}"/>
-        <j:set var="isAmbiguous" value="${attrs.type == 'EITHER'}"/>
-        <j:set var="typeName" value="${descriptor.getTypeLabel(attrs.type.toLowerCase())}"/>
+        <j:set var="cardSid" value="${attrs.sid}"/>
+        <j:set var="cardType" value="${attrs.type}"/>
+        <j:set var="permissionEntry" value="${descriptor.entryFor(cardType, cardSid)}"/>
+        <j:set var="isBuiltIn" value="${(cardSid == 'anonymous' and cardType == 'USER') or (cardSid == 'authenticated' and cardType == 'GROUP')}"/>
+        <j:set var="isAmbiguous" value="${cardType == 'EITHER'}"/>
+        <j:set var="typeName" value="${descriptor.getTypeLabel(cardType.toLowerCase())}"/>
 
         <div class="mas-card permission-row ${isAmbiguous ? 'mas-card--ambiguous' : ''} ${readOnlyMode ? 'read-only' : ''}"
-             name="[${attrs.type}:${attrs.sid}]"
+             name="[${cardType}:${cardSid}]"
              data-descriptor-url="${descriptor.descriptorFullUrl}"
-             data-sid="${attrs.sid}"
-             data-type="${attrs.type}">
+             data-sid="${cardSid}"
+             data-type="${cardType}">
+
+          <!-- Hidden validation target for FormChecker -->
+          <div class="mas-card__validation-target" hidden="true"></div>
 
           <!-- Card header -->
           <div class="mas-card__header" role="button" tabindex="0"
                aria-expanded="false">
             <div class="mas-card__identity">
               <j:choose>
-                <j:when test="${attrs.type == 'GROUP' or (attrs.sid == 'authenticated' and attrs.type == 'GROUP')}">
+                <j:when test="${cardType == 'GROUP' or (cardSid == 'authenticated' and cardType == 'GROUP')}">
                   <l:icon src="symbol-people-outline plugin-ionicons-api" class="icon-sm"/>
                 </j:when>
                 <j:otherwise>
@@ -66,41 +71,41 @@ THE SOFTWARE.
               </j:choose>
               <span class="mas-card__name">
                 <j:choose>
-                  <j:when test="${attrs.sid == 'authenticated' and attrs.type == 'GROUP'}">${%Authenticated Users}</j:when>
-                  <j:when test="${attrs.sid == 'anonymous' and attrs.type == 'USER'}">${%Anonymous}</j:when>
-                  <j:otherwise>${attrs.sid}</j:otherwise>
+                  <j:when test="${cardSid == 'authenticated' and cardType == 'GROUP'}">${%Authenticated Users}</j:when>
+                  <j:when test="${cardSid == 'anonymous' and cardType == 'USER'}">${%Anonymous}</j:when>
+                  <j:otherwise>${cardSid}</j:otherwise>
                 </j:choose>
               </span>
               <j:if test="${isAmbiguous}">
                 <span class="mas-card__badge mas-card__badge--warning">${%ambiguousLabel}</span>
               </j:if>
             </div>
-            <div class="mas-card__summary">
+            <div class="mas-card__summary" data-empty-text="${%noPermissions}">
               <!-- Populated by JS -->
             </div>
             <div class="mas-card__actions">
               <local:isEditable>
                 <button type="button" class="jenkins-button jenkins-button--tertiary mas-card__action selectall"
-                        tooltip="${%selectall(attrs.sid)}">
+                        tooltip="${%selectall(cardSid)}">
                   <l:icon src="symbol-select-all plugin-matrix-auth" class="icon-sm"/>
                 </button>
                 <button type="button" class="jenkins-button jenkins-button--tertiary mas-card__action unselectall"
-                        tooltip="${%unselectall(attrs.sid)}">
+                        tooltip="${%unselectall(cardSid)}">
                   <l:icon src="symbol-unselect-all plugin-matrix-auth" class="icon-sm"/>
                 </button>
                 <j:if test="${not isBuiltIn}">
                   <button type="button" class="jenkins-button jenkins-button--tertiary jenkins-!-destructive-color mas-card__action remove"
-                          tooltip="${%remove(attrs.sid)}">
+                          tooltip="${%remove(cardSid)}">
                     <l:icon src="symbol-trash-outline plugin-ionicons-api" class="icon-sm"/>
                   </button>
                 </j:if>
                 <j:if test="${isAmbiguous}">
                   <button type="button" class="jenkins-button jenkins-button--tertiary mas-card__action migrate migrate_user"
-                          tooltip="${%migrate_user(attrs.sid)}">
+                          tooltip="${%migrate_user(cardSid)}">
                     <l:icon src="symbol-person-outline plugin-ionicons-api" class="icon-sm"/>
                   </button>
                   <button type="button" class="jenkins-button jenkins-button--tertiary mas-card__action migrate migrate_group"
-                          tooltip="${%migrate_group(attrs.sid)}">
+                          tooltip="${%migrate_group(cardSid)}">
                     <l:icon src="symbol-people-outline plugin-ionicons-api" class="icon-sm"/>
                   </button>
                 </j:if>
@@ -198,13 +203,13 @@ THE SOFTWARE.
                   data-type-label="${%user}"
                   data-message-prompt="${%userPrompt}"
                   data-message-title="${%Add user}"
-                  data-message-error="${%userError}">${%Add user\u2026}</button>
+                  data-message-error="${%userError}">${%Add user}</button>
           <button type="button" class="jenkins-button matrix-auth-add-button"
                   data-type="GROUP"
                   data-type-label="${%group}"
                   data-message-prompt="${%groupPrompt}"
                   data-message-title="${%Add group}"
-                  data-message-error="${%groupError}">${%Add group\u2026}</button>
+                  data-message-error="${%groupError}">${%Add group}</button>
           <f:helpLink featureName="${%Permissions matrix}" url="${descriptor.find('hudson.security.GlobalMatrixAuthorizationStrategy$DescriptorImpl').getHelpFile('user-group')}"/>
         </div>
         <f:helpArea />

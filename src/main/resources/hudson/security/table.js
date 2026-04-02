@@ -22,7 +22,7 @@ function matrixAuthBuildSummary(card) {
     }
     const checked = [];
     group.querySelectorAll("input[type=checkbox]").forEach(function (cb) {
-      if (cb.checked) {
+      if (cb.checked && !cb.disabled) {
         const label = cb.closest(".mas-card__permission");
         const nameEl = label ? label.querySelector(".mas-card__permission-name") : null;
         if (nameEl) {
@@ -43,7 +43,14 @@ function matrixAuthBuildSummary(card) {
 function matrixAuthUpdateSummary(card) {
   const summaryEl = card.querySelector(".mas-card__summary");
   if (summaryEl) {
-    summaryEl.textContent = matrixAuthBuildSummary(card);
+    const summary = matrixAuthBuildSummary(card);
+    if (summary) {
+      summaryEl.textContent = summary;
+      summaryEl.classList.remove("mas-card__summary--empty");
+    } else {
+      summaryEl.textContent = summaryEl.getAttribute("data-empty-text") || "No permissions granted";
+      summaryEl.classList.add("mas-card__summary--empty");
+    }
   }
 }
 
@@ -88,6 +95,57 @@ function matrixAuthUpdateImplied(card) {
       }
     }
   });
+}
+
+/**
+ * Process the FormChecker validation response and apply styles to the card.
+ * The response HTML is in a hidden element; we extract info from it
+ * and update the card's visible identity elements.
+ */
+function matrixAuthProcessValidation(card) {
+  var target = card.querySelector(".mas-card__validation-target");
+  if (!target) {
+    return;
+  }
+  var nameEl = card.querySelector(".mas-card__name");
+  var identityEl = card.querySelector(".mas-card__identity");
+
+  // Check for not-found state
+  var notFound = target.querySelector(".mas-table__cell--not-found");
+  if (notFound) {
+    card.classList.add("mas-card__cell--not-found");
+  } else {
+    card.classList.remove("mas-card__cell--not-found");
+  }
+
+  // Check for warning state
+  var warningCell = target.querySelector(".mas-table__cell-warning");
+  if (warningCell) {
+    card.classList.add("mas-card__cell-warning");
+  } else {
+    card.classList.remove("mas-card__cell-warning");
+  }
+
+  // Copy tooltip from the validation response to the identity element
+  var responseDiv = target.querySelector(".mas-table__cell");
+  if (responseDiv && identityEl) {
+    var tooltip = responseDiv.getAttribute("tooltip") || responseDiv.getAttribute("title");
+    if (tooltip) {
+      identityEl.setAttribute("tooltip", tooltip);
+      identityEl.setAttribute("title", tooltip);
+    }
+  }
+
+  // Update display name if the validation response has a different name
+  // (e.g., server resolved a full display name for the user)
+  if (nameEl && responseDiv) {
+    var responseText = responseDiv.textContent.trim();
+    var currentName = nameEl.textContent.trim();
+    // Only update if the response text differs and is non-empty
+    if (responseText && responseText !== currentName) {
+      nameEl.textContent = responseText;
+    }
+  }
 }
 
 /**
@@ -384,12 +442,20 @@ Behaviour.specify(".mas-card", "MatrixAuthCards", 100, function (card) {
   // Name validation for non-built-in entries
   if (card.classList.contains("permission-row") && card.getAttribute("data-descriptor-url")) {
     if (!card.hasAttribute("data-checked")) {
-      const nameEl = card.querySelector(".mas-card__identity");
-      FormChecker.delayedCheck(
-        card.getAttribute("data-descriptor-url") + "/checkName?value=" + encodeURIComponent(card.getAttribute("name")),
-        "GET",
-        nameEl
-      );
+      var validationTarget = card.querySelector(".mas-card__validation-target");
+      if (validationTarget) {
+        FormChecker.delayedCheck(
+          card.getAttribute("data-descriptor-url") + "/checkName?value=" + encodeURIComponent(card.getAttribute("name")),
+          "GET",
+          validationTarget
+        );
+        // Observe the validation response and apply styles to the card
+        var observer = new MutationObserver(function () {
+          matrixAuthProcessValidation(card);
+          observer.disconnect();
+        });
+        observer.observe(validationTarget, { childList: true, subtree: true });
+      }
       card.setAttribute("data-checked", "true");
     }
   }
