@@ -37,7 +37,6 @@
     border-radius: var(--form-input-border-radius);
     background: var(--card-background);
     overflow: hidden;
-    transition: border-color 0.2s;
 
     &:not(:first-of-type) {
       border-top-left-radius: 0;
@@ -66,7 +65,7 @@
   cursor: pointer;
   user-select: none;
   min-width: 0;
-  transition: var(--standard-transition);
+  transition: background var(--standard-transition);
 }
 
 .mas-card__header:hover {
