@@ -440,7 +440,7 @@ Behaviour.specify(".mas-card", "MatrixAuthCards", 100, function (card) {
   card.setAttribute("data-initialized", "true");
 
   // Name validation for non-built-in entries
-  if (card.classList.contains("permission-row") && card.getAttribute("data-descriptor-url")) {
+  if (card.classList.contains("permission-row") && card.getAttribute("data-descriptor-url") && card.getAttribute("data-built-in") !== "true") {
     if (!card.hasAttribute("data-checked")) {
       var validationTarget = card.querySelector(".mas-card__validation-target");
       if (validationTarget) {

@@ -52,7 +52,8 @@ THE SOFTWARE.
              name="[${cardType}:${cardSid}]"
              data-descriptor-url="${descriptor.descriptorFullUrl}"
              data-sid="${cardSid}"
-             data-type="${cardType}">
+             data-type="${cardType}"
+             data-built-in="${isBuiltIn}">
 
           <!-- Hidden validation target for FormChecker -->
           <div class="mas-card__validation-target" hidden="true"></div>

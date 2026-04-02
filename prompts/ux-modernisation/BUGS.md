@@ -10,6 +10,8 @@
 * ~~FormChecker.delayedCheck was replacing the entire .mas-card__identity content with old-style validation HTML (mas-table__* classes), destroying the card's icon, name span, and badge~~ Fixed: added hidden `.mas-card__validation-target` element for FormChecker, with MutationObserver to process the response and apply validation styles (not-found, warning, tooltip, display name) to the card without destroying its structure
 
 
-* Anonymous and authenticated are special users and groups respectively they shouldn't be showing as not found
-* Select all doesn't really need to actually select all, administer is sufficient. 
-* Implied permissions have insufficient contrast for the text 'implied' when they are selected and is not WCAG AA compliant. 
+* ~~Anonymous and authenticated are special users and groups respectively they shouldn't be showing as not found~~ Fixed: added `data-built-in` attribute to cards, JS skips FormChecker validation for built-in entries
+* ~~Select all doesn't really need to actually select all, administer is sufficient.~~ Fixed: select all now only checks Administer, which implies all other permissions
+* ~~Implied permissions have insufficient contrast for the text 'implied' when they are selected and is not WCAG AA compliant.~~ Fixed: replaced `opacity: 0.65` with subtle background tint for implied state, and `(implied)` text inherits white color on checked accent background
+
+* ~~Undo the select all change but ensure that if they have administer it doesn't list all the other permissions in the summary, you can test this on http://localhost:8099/jenkins/job/folder/configure, currently select all does nothing for project based security on a job~~ Fixed: reverted select all to check all permissions (needed for project-based security which has no Administer). Summary already correctly excludes implied/disabled permissions — "Overall: Administer" is all that shows when Administer is checked.

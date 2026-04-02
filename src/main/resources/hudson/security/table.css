@@ -237,6 +237,10 @@
   font-style: italic;
 }
 
+.mas-card__permission:has(input:checked) .mas-card__permission-implied {
+  color: inherit;
+}
+
 .mas-card__permission-info {
   color: var(--text-color-secondary);
   cursor: help;
@@ -251,7 +255,7 @@
 
 /* Implied permission styling */
 .mas-card__permission--implied {
-  opacity: 0.65;
+  background: var(--table-row-background-hover, rgba(0, 0, 0, 0.03));
 }
 
 .mas-card__permission--implied input[type="checkbox"] {
