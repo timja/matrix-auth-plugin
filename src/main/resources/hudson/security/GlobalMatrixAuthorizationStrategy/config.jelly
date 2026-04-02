@@ -211,7 +211,8 @@ THE SOFTWARE.
       </div>
 
       <!-- Empty state when search filters everything -->
-      <div class="mas-empty-state" hidden="true">
+      <div class="jenkins-notice mas-empty-state" hidden="true">
+        <l:icon src="symbol-search" />
         ${%noResults}
       </div>
     </div>
