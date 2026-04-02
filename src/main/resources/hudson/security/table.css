@@ -1,18 +1,18 @@
 /*
  * The MIT License
- * 
+ *
  * Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Seiji Sogabe
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,118 +21,252 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-.global-matrix-authorization-strategy-table {
-  border-spacing: 2px
+
+/* Container */
+.mas-container {
+  max-width: 800px;
 }
 
-.global-matrix-authorization-strategy-table tbody>tr>td {
-  height: 30px;
+/* Search */
+.mas-search {
+  margin-bottom: 1rem;
 }
 
-.global-matrix-authorization-strategy-table th, .global-matrix-authorization-strategy-table td
-{
-  padding: 0 0.25rem!important;
-  vertical-align: middle;
-  text-align: center;
+.mas-search__input {
+  width: 100%;
 }
 
-.global-matrix-authorization-strategy-table .caption-row TH {
-  padding: 0.25rem!important;
-  width: 1rem;
-  text-align: center;
+/* Cards container */
+.mas-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.global-matrix-authorization-strategy-table .caption-row TH span {
-  writing-mode: vertical-rl;
-  padding: 5px 0;
-  font-weight: lighter;
+/* Card */
+.mas-card {
+  border: 1px solid var(--input-border);
+  border-radius: var(--table-border-radius, 0.66rem);
+  background: var(--table-body-background);
+  overflow: hidden;
+  transition: border-color 0.2s;
 }
 
-.global-matrix-authorization-strategy-table TD.left-most {
-  text-align: left;
+.mas-card:focus-within {
+  border-color: var(--focus-input-border);
 }
 
-.global-matrix-authorization-strategy-table TD.stop {
+.mas-card--ambiguous {
+  border-left: 3px solid var(--warning);
+}
+
+/* Card header */
+.mas-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mas-card__header:hover {
+  background: var(--table-row-background-hover, rgba(0, 0, 0, 0.03));
+}
+
+.mas-card__header:focus-visible {
+  outline: 2px solid var(--focus-input-border);
+  outline-offset: -2px;
+  border-radius: var(--table-border-radius, 0.66rem);
+}
+
+.mas-card__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+
+.mas-card__name {
+  font-weight: 600;
   white-space: nowrap;
 }
 
-.matrix-auth-add-user-button {
-  margin: 10px;
+.mas-card__badge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
 }
 
-@keyframes highlightentry {
-  from { background: #C4C080; }
-  to { background: transparent; }
+.mas-card__badge--warning {
+  background: var(--warning);
+  color: var(--background);
 }
 
-.highlight-entry {
-  -webkit-animation: highlightentry 5s;
-  -moz-animation: highlightentry 5s;
-  animation: highlightentry 5s;
+.mas-card__summary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
 }
 
-.global-matrix-authorization-strategy-table .jenkins-checkbox {
-  vertical-align: middle;
-}
-
-.mas-table__cell {
+.mas-card__actions {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 0.125rem;
+  flex-shrink: 0;
 }
 
-.mas-table__cell svg {
-  min-width: 16px;
+.mas-card__action {
+  padding: 0.25rem !important;
+  min-width: auto !important;
 }
 
-.mas-table__cell a {
-  height: 16px;
-  color: var(--text-color)
+.mas-card__toggle {
+  padding: 0.25rem !important;
+  min-width: auto !important;
+  transition: transform 0.2s;
 }
 
-.mas-table__cell a svg {
-  vertical-align: initial!important;
+.mas-card[aria-expanded="true"] .mas-card__toggle {
+  transform: rotate(180deg);
 }
 
-.mas-table__cell--not-found {
+/* Card body */
+.mas-card__body {
+  padding: 0 0.75rem 0.75rem;
+  border-top: 1px solid var(--input-border);
+}
+
+.mas-card__body[hidden] {
+  display: none;
+}
+
+/* Permission groups */
+.mas-card__permission-group {
+  border: none;
+  padding: 0;
+  margin: 0.75rem 0 0 0;
+}
+
+.mas-card__permission-group:first-child {
+  margin-top: 0.5rem;
+}
+
+.mas-card__group-title {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0 0 0.375rem 0;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.mas-card__permissions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  padding-top: 0.375rem;
+}
+
+/* Individual permission */
+.mas-card__permission {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0;
+  min-width: 150px;
+}
+
+.mas-card__permission-name {
+  font-size: 0.875rem;
+}
+
+.mas-card__permission-implied {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  font-style: italic;
+}
+
+.mas-card__permission-info {
+  color: var(--text-color-secondary);
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mas-card__permission-info svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Implied permission styling */
+.mas-card__permission--implied {
+  opacity: 0.65;
+}
+
+.mas-card__permission--implied input[type="checkbox"] {
+  pointer-events: none;
+}
+
+/* Validation states on card name */
+.mas-card__cell--not-found .mas-card__name {
   text-decoration: line-through;
   color: var(--danger);
   font-weight: 600;
 }
 
-.mas-table__cell-warning {
+.mas-card__cell-warning .mas-card__name {
   color: var(--warning);
   font-weight: 600;
 }
 
-.mas-table__icon-warning {
-  color: var(--warning);
-  min-width: 24px!important;
+/* Ambiguity warning */
+.mas-ambiguity-warning {
+  margin-bottom: 1rem;
 }
 
-.mas-table__icon-alert {
-  color: var(--danger);
-  min-width: 24px!important;
+/* Empty state */
+.mas-empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color-secondary);
 }
 
-.mas-table__header {
-  vertical-align: bottom!important;
-  text-align: left!important;
+.mas-empty-state[hidden] {
+  display: none;
 }
 
-.mas-table__header-th {
-  text-align: center!important;
-  background: var(--table-body-background);
+/* Highlight animation for merged rows */
+@keyframes highlightentry {
+  from { background: var(--focus-input-glow, #C4C080); }
+  to { background: transparent; }
 }
 
-.mas-table__header-th.first {
-  border-top-left-radius: var(--table-border-radius);
+.highlight-entry {
+  animation: highlightentry 5s;
 }
 
-.mas-table__header-th.last {
-  border-top-right-radius: var(--table-border-radius);
+/* Read-only mode */
+.mas-card.read-only .mas-card__header {
+  cursor: default;
 }
 
-.mas-table__permission {
-  background: var(--table-body-background);
+.mas-card.read-only .mas-card__actions {
+  display: none;
+}
+
+.mas-card.read-only .mas-card__permission input[type="checkbox"] {
+  pointer-events: none;
+}
+
+/* Hidden by search filter */
+.mas-card--hidden {
+  display: none;
 }
