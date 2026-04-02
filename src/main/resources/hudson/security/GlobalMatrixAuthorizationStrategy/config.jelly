@@ -170,9 +170,23 @@ THE SOFTWARE.
     <!-- Search / filter -->
     <div class="mas-container" id="${strategyid}" name="data">
       <local:isEditable>
-        <l:search-bar placeholder="${%searchPlaceholder}"
-                      clazz="mas-search"
-                      hasKeyboardShortcut="false" />
+        <div class="mas-app-bar">
+          <l:search-bar placeholder="${%searchPlaceholder}"
+                        clazz="mas-search"
+                        hasKeyboardShortcut="false" />
+          <button type="button" class="jenkins-button matrix-auth-add-button"
+                  data-type="USER"
+                  data-type-label="${%user}"
+                  data-message-prompt="${%userPrompt}"
+                  data-message-title="${%Add user}"
+                  data-message-error="${%userError}">${%Add user}</button>
+          <button type="button" class="jenkins-button matrix-auth-add-button"
+                  data-type="GROUP"
+                  data-type-label="${%group}"
+                  data-message-prompt="${%groupPrompt}"
+                  data-message-title="${%Add group}"
+                  data-message-error="${%groupError}">${%Add group}</button>
+        </div>
       </local:isEditable>
 
       <!-- Ambiguity warning -->
@@ -199,18 +213,6 @@ THE SOFTWARE.
       <!-- Add buttons -->
       <local:isEditable>
         <div class="jenkins-buttons-row jenkins-buttons-row--equal-width jenkins-!-margin-top-2">
-          <button type="button" class="jenkins-button matrix-auth-add-button"
-                  data-type="USER"
-                  data-type-label="${%user}"
-                  data-message-prompt="${%userPrompt}"
-                  data-message-title="${%Add user}"
-                  data-message-error="${%userError}">${%Add user}</button>
-          <button type="button" class="jenkins-button matrix-auth-add-button"
-                  data-type="GROUP"
-                  data-type-label="${%group}"
-                  data-message-prompt="${%groupPrompt}"
-                  data-message-title="${%Add group}"
-                  data-message-error="${%groupError}">${%Add group}</button>
           <f:helpLink featureName="${%Permissions matrix}" url="${descriptor.find('hudson.security.GlobalMatrixAuthorizationStrategy$DescriptorImpl').getHelpFile('user-group')}"/>
         </div>
         <f:helpArea />

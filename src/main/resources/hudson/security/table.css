@@ -27,11 +27,6 @@
   max-width: 900px;
 }
 
-/* Search */
-.mas-search {
-  margin-bottom: calc(var(--section-padding) / 2);
-}
-
 /* Cards container */
 .mas-cards {
   display: flex;
@@ -163,6 +158,13 @@
 /* Card body */
 .mas-card__body {
   border-top: var(--jenkins-border);
+}
+
+.mas-app-bar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  margin-bottom: calc(var(--section-padding) / 2);
 }
 
 .mas-card__body[hidden] {
