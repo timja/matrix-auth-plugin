@@ -82,6 +82,7 @@ function matrixAuthUpdateImplied(card) {
 
     const impliedLabel = label.querySelector(".mas-card__permission-implied");
     if (isImplied) {
+      checkbox.checked = false;
       checkbox.disabled = true;
       label.classList.add("mas-card__permission--implied");
       if (impliedLabel) {
