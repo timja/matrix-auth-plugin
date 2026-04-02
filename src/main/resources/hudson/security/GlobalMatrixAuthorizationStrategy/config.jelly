@@ -149,7 +149,7 @@ THE SOFTWARE.
                           <j:set var="permDescription" value="${descriptor.getDescription(p)}"/>
                           <j:if test="${permDescription != null and permDescription.length() > 0}">
                             <span class="mas-card__permission-info" data-html-tooltip="${permDescription}">
-                              <l:icon src="symbol-information-circle-outline plugin-ionicons-api" class="icon-sm"/>
+                              <l:icon src="symbol-help-circle" class="icon-sm"/>
                             </span>
                           </j:if>
                         </label>

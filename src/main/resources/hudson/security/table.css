@@ -73,15 +73,15 @@
   min-width: 0;
 }
 
-.mas-card__header:hover {
-  background: var(--table-row-background-hover, rgba(0, 0, 0, 0.03));
-}
+/*.mas-card__header:hover {*/
+/*  background: var(--table-row-background-hover, rgba(0, 0, 0, 0.03));*/
+/*}*/
 
-.mas-card__header:focus-visible {
-  outline: 2px solid var(--focus-input-border);
-  outline-offset: -2px;
-  border-radius: var(--table-border-radius, 0.66rem);
-}
+/*.mas-card__header:focus-visible {*/
+/*  outline: 2px solid var(--focus-input-border);*/
+/*  outline-offset: -2px;*/
+/*  border-radius: var(--table-border-radius, 0.66rem);*/
+/*}*/
 
 .mas-card__identity {
   display: flex;
@@ -162,7 +162,6 @@
 
 /* Card body */
 .mas-card__body {
-  padding: 0 0.75rem 0.75rem;
   border-top: var(--jenkins-border);
 }
 
@@ -172,31 +171,30 @@
 
 /* Permission groups */
 .mas-card__permission-group {
+  display: flex;
+  flex-direction: column;
   border: none;
   padding: 0;
-  margin: 0.75rem 0 0 0;
-}
+  margin: 0;
 
-.mas-card__permission-group:first-child {
-  margin-top: 0.5rem;
+  &:first-of-type {
+    margin-top: 0.75rem;
+  }
 }
 
 .mas-card__group-title {
+  color: var(--text-color-secondary);
   font-weight: var(--font-bold-weight);
   font-size: 0.8125rem;
-  color: var(--text-color-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 0 0 0.375rem 0;
-  margin-bottom: 0.25rem;
-  border-bottom: 1px solid var(--input-border);
+  margin: 0 0.75rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
 }
 
 .mas-card__permissions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  padding-top: 0.375rem;
+  gap: 0.25rem;
+  margin: 0.5rem 0.75rem 0.75rem 0.75rem;
 }
 
 /* Individual permission */
